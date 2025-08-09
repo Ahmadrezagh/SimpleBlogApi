@@ -16,7 +16,8 @@ class BlogCollection extends ResourceCollection
     public function toArray(Request $request): array
     {
         $userId = $request->user() ? $request->user()->id : null;
-
+        $blogs = $this->resource['blogs'];
+        
         return [
             'status' => true,
             'message' => $this->resource['message'] ?? 'Blogs retrieved successfully',
