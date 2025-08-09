@@ -15,7 +15,7 @@ class BlogResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $blog = $this->resource['blog'];
+        $blog = $this->resource;
         $userId = $request->user() ? $request->user()->id : null;
 
         return [
