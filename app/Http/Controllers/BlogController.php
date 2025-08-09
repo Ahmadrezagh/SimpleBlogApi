@@ -44,10 +44,11 @@ class BlogController extends Controller
 
         $blogs = $query->paginate($request->per_page);
 
-        return new BlogCollection([
-            'blogs' => $blogs,
-            'message' => 'Blogs retrieved successfully'
-        ]);
+        return (new BlogCollection($blogs))
+    ->additional([
+        'status' => true,
+        'message' => 'Blogs retrieved successfully'
+    ]);
     }
 
     /**
