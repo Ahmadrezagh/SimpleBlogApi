@@ -22,24 +22,7 @@ class BlogCollection extends ResourceCollection
             'message' => $this->resource['message'] ?? 'Blogs retrieved successfully',
             'data' => [
                 'current_page' => $this->resource['blogs']->currentPage(),
-                'data' => $this->resource['blogs']->map(function ($blog) use ($userId) {
-                    return [
-                        'id' => $blog->id,
-                        'title' => $blog->title,
-                        'slug' => $blog->slug,
-                        'description' => $blog->description,
-                        'cover_image' => FileUploadService::getFileUrl($blog->cover_image),
-                        'user_id' => $blog->user_id,
-                        'created_at' => $blog->created_at,
-                        'updated_at' => $blog->updated_at,
-                        'likes_count' => $blog->likes_count,
-                        'is_liked_by_user' => $userId ? $blog->isLikedBy($userId) : false,
-                        'user' => $blog->user ? [
-                            'id' => $blog->user->id,
-                            'name' => $blog->user->name,
-                        ] : null,
-                    ];
-                }),
+                'data' => new BlogResource($blog),
                 'per_page' => $this->resource['blogs']->perPage(),
                 'total' => $this->resource['blogs']->total(),
             ]
