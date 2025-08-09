@@ -15,28 +15,28 @@ class BlogResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        
+        $blog = $this->resource['blog'];
         $userId = $request->user() ? $request->user()->id : null;
 
         return [
             'status' => true,
             'message' => $this->resource['message'] ?? 'Blog retrieved successfully',
             'data' => [
-                'id' => $this->id,
-                'title' => $this->title,
-                'slug' => $this->slug,
-                'description' => $this->description,
+                'id' => $blog->id,
+                'title' => $blog->title,
+                'slug' => $blog->slug,
+                'description' => $blog->description,
                 'cover_image' => FileUploadService::getFileUrl($blog->cover_image),
-                'user_id' => $this->user_id,
-                'created_at' => $this->created_at,
-                'updated_at' => $this->updated_at,
-                'likes_count' => $this->likes_count,
-                'is_liked_by_user' => $userId ? $this->isLikedBy($userId) : false,
-                'user' => $this->user ? [
-                    'id' => $this->user->id,
-                    'name' => $this->user->name,
+                'user_id' => $blog->user_id,
+                'created_at' => $blog->created_at,
+                'updated_at' => $blog->updated_at,
+                'likes_count' => $blog->likes_count,
+                'is_liked_by_user' => $userId ? $blog->isLikedBy($userId) : false,
+                'user' => $blog->user ? [
+                    'id' => $blog->user->id,
+                    'name' => $blog->user->name,
                 ] : null,
-                'comments' => $this->comments()->with('user:id,name')->latest()->get()->map(function ($comment) {
+                'comments' => $blog->comments()->with('user:id,name')->latest()->get()->map(function ($comment) {
                     return [
                         'id' => $comment->id,
                         'content' => $comment->content,
