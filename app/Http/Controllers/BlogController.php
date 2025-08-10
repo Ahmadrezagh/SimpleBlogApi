@@ -65,10 +65,10 @@ class BlogController extends Controller
             ], 404);
         }
 
-        return new BlogResource([
-            'blog' => $blog,
-            'message' => 'Blog retrieved successfully'
-        ]);
+        return (new BlogResource($blog))->additional([
+        'status' => true,
+        'message' => 'Blog retrieved successfully'
+    ]);
     }
 
     /**
@@ -105,10 +105,11 @@ class BlogController extends Controller
         $blog = Blog::create($blogData);
         $blog->load('user:id,name');
 
-        return new BlogResource([
-            'blog' => $blog,
+        return (new BlogResource($blog))->additional([
+        'status' => true,
             'message' => 'Blog created successfully'
         ]);
+        
     }
 
     /**
@@ -166,8 +167,9 @@ class BlogController extends Controller
         $blog->update($updateData);
         $blog->load('user:id,name');
 
-        return new BlogResource([
-            'blog' => $blog,
+        
+        return (new BlogResource($blog))->additional([
+        'status' => true,
             'message' => 'Blog updated successfully'
         ]);
     }
@@ -202,9 +204,9 @@ class BlogController extends Controller
 
         $blogs = $query->paginate($validated['per_page']);
 
-        return new BlogCollection([
-            'blogs' => $blogs,
+        return (new BlogResource($blog))->additional([
+        'status' => true,
             'message' => 'Your blogs retrieved successfully'
-        ]);
+    ]);
     }
 }
