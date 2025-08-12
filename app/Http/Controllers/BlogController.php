@@ -204,9 +204,11 @@ class BlogController extends Controller
 
         $blogs = $query->paginate($request->per_page);
 
-        return (new BlogResource($blog))->additional([
+     
+        return (new BlogCollection($blogs))
+    ->additional([
         'status' => true,
-            'message' => 'Your blogs retrieved successfully'
+        'message' => 'Your blogs retrieved successfully'
     ]);
     }
 }
