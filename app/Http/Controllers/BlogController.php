@@ -184,10 +184,10 @@ class BlogController extends Controller
         $query = $request->user()->blogs()->with('user:id,name');
 
         // Apply search scope
-        $query->search($validated['search']);
+        $query->search($request->search);
 
         // Apply ordering scope
-        switch ($validated['order']) {
+        switch ($request->order) {
             case 'oldest':
                 $query->oldest();
                 break;
@@ -202,7 +202,7 @@ class BlogController extends Controller
                 break;
         }
 
-        $blogs = $query->paginate($validated['per_page']);
+        $blogs = $query->paginate($request->per_page);
 
         return (new BlogResource($blog))->additional([
         'status' => true,
